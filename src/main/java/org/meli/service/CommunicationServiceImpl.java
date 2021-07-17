@@ -1,6 +1,7 @@
 package org.meli.service;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.meli.exceptions.LocationException;
@@ -14,6 +15,9 @@ import java.util.Arrays;
 @ApplicationScoped
 public class CommunicationServiceImpl implements CommunicationService {
     
+    @Inject
+    LocationFoundService locationFoundService;
+
     @ConfigProperty(name = "nSatellities") 
     String nSatellities;
 
@@ -36,8 +40,9 @@ public class CommunicationServiceImpl implements CommunicationService {
 
         if( (requestEntity.getPositions().length < 2) || (requestEntity.getDistances().length < 2) )
             throw new LocationException("Num de posiciones o distancias insuficientes");
+    
 
-        double[] points = {1.0,2.0};
+        double[] points = locationFoundService.getLocation(requestEntity.getPositions(), requestEntity.getDistances());
         Position pos = new Position(points);
         return new Spacecraft("mensaje ok!", pos);
     }
