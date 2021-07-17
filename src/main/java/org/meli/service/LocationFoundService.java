@@ -1,9 +1,12 @@
 package org.meli.service;
 
 import javax.enterprise.context.ApplicationScoped;
+
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.meli.model.Position;
+import org.meli.model.Satellite;
 
 @ApplicationScoped
 public class LocationFoundService {
@@ -23,9 +26,6 @@ public class LocationFoundService {
         NonLinearLeastSquaresSolver nSolver = new NonLinearLeastSquaresSolver(trilaterationFunction, new LevenbergMarquardtOptimizer());
         double[] points = nSolver.solve().getPoint().toArray();
 
-        for (int i = 0; i < points.length; i++) {
-            points[i]= Math.round(points[i]*100d/100d);
-        }
 
         return  points;
     }                                          
@@ -66,5 +66,42 @@ public class LocationFoundService {
         double[] points = {x,y};
         return points;
 
+    }
+
+    public boolean verificationIntersection(Satellite satellite, Position posNave){
+        //GENERAR LA ECUACION DE CIRCUNFERENCIA DEL SATELITE 
+        //x,y,r del satelite
+        double x1,y1,r1,resultado,x,y;
+        //necesito para devolver true, que el resultado sea igual al radio al cuadrado
+
+        x1= satellite.getPosition().getX();
+        y1= satellite.getPosition().getY();
+        r1= satellite.getDistance();
+
+        x= posNave.getX();
+        y= posNave.getY();
+
+        //el resultado usara la ecuacion de circunferencia (x-x1)**2 + (y-y1)**2 = r1**2
+        resultado= Math.pow(x, 2) - 2*x1*x + Math.pow(x1, 2) + Math.pow(y, 2) - 2*y1*y + Math.pow(y1, 2);
+
+        double radioCuadrado = Math.pow(r1, 2);
+        resultado = Math.abs(resultado); //valor absoluto para evitar negativos
+        
+        // int resultadoInt = (int)resultado;
+        // int radioCuadradoInt = (int)radioCuadrado;
+
+        /**Si dejo el if con un igual exacto, cualquier minimo cambio en un decimal puede afectar a la ecuacion */
+        // if( resultadoInt == radioCuadradoInt ){
+        //     return true;
+        // }else{
+        //     return false;
+        // }
+
+        //permite una diferencia en las ecuaciones de 15
+        if(resultado - radioCuadrado < 15 && resultado - radioCuadrado > -15 ){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

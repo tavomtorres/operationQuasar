@@ -8,6 +8,7 @@ import org.meli.exceptions.LocationException;
 import org.meli.exceptions.MessagesException;
 import org.meli.model.GalacticShip;
 import org.meli.model.Position;
+import org.meli.model.Satellite;
 import org.meli.model.SatelliteWrapper;
 import org.meli.model.Spacecraft;
 import java.util.Arrays;
@@ -33,6 +34,8 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Override
     public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException , LocationException{
 
+        Satellite satelliteFallido = new Satellite();
+        boolean intersect =false;
         if(requestEntity.getMessages().size() < 2)
             throw new MessagesException("El minimo de mensajes no se ha cumplido en la comunicacion");
 
@@ -44,7 +47,22 @@ public class CommunicationServiceImpl implements CommunicationService {
 
         double[] points = locationFoundService.getLocation(requestEntity.getPositions(), requestEntity.getDistances());
         Position pos = new Position(points);
-        return new Spacecraft("mensaje ok!", pos);
+
+        for (int i = 0; i < requestEntity.getSatellities().size(); i++) {
+            intersect = locationFoundService.verificationIntersection(requestEntity.getSatellities().get(i), pos);
+            if(intersect == false){
+                satelliteFallido = requestEntity.getSatellities().get(i);
+                break;
+            }      
+        }
+        
+        if(intersect){
+            pos.setX(Math.round(pos.getX()*100d/100d));
+            pos.setY(Math.round(pos.getY()*100d/100d));
+            return new Spacecraft("mensaje ok!", pos);
+        }else{
+            throw new LocationException("imposible encontrar la nave...las distancias de los satelites no estan en rango de comunicacion");
+        }  
     }
 
     public void uploadPositions(SatelliteWrapper requestEntity){ //setea las posiciones definidas en cada uno de los 3 satelites.
