@@ -29,7 +29,7 @@ public class Position {
 
     @Override
     public String toString(){
-        return  "pX:"+x+","+ "pY:"+ y;
+        return  x+","+ y;
     }
     
 }

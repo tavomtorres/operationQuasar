@@ -3,6 +3,7 @@ org\meli\model\Position.class
 org\meli\exceptions\MessagesException.class
 org\meli\exceptions\LocationException.class
 org\meli\resources\GreetingResource.class
+org\meli\service\LocationFoundService.class
 org\meli\model\GalacticShip.class
 org\meli\model\SatelliteWrapper.class
 org\meli\model\Spacecraft.class
