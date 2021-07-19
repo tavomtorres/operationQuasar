@@ -3,14 +3,21 @@ package org.meli.service;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.meli.exceptions.LocationException;
 import org.meli.exceptions.MessagesException;
+import org.meli.exceptions.SatelliteException;
 import org.meli.model.GalacticShip;
 import org.meli.model.Position;
+import org.meli.model.Satellite;
 import org.meli.model.SatelliteWrapper;
 import org.meli.model.Spacecraft;
+import org.meli.model.responses.TopSecretSplitResponse;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @ApplicationScoped
 public class CommunicationServiceImpl implements CommunicationService {
@@ -33,6 +40,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @ConfigProperty(name = "satellities.2.position") 
     String satellite2Pos;
+
+    final List<Satellite> listaSatelitesGuardados = new ArrayList<Satellite>();
 
     @Override
     public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException , LocationException{
@@ -69,10 +78,47 @@ public class CommunicationServiceImpl implements CommunicationService {
         }  
     }
 
+
+    @Override
+    public TopSecretSplitResponse saveInfoSatellite(Satellite satellite) throws MessagesException, LocationException,SatelliteException {
+    
+        TopSecretSplitResponse tsResponse = new TopSecretSplitResponse();
+        try {
+            uploadOneSatellitePosition(satellite);
+            listaSatelitesGuardados.add(satellite);
+            tsResponse.setMessage("satelite agregado! esperando siguiente peticion post...");
+            tsResponse.setHttpStatus(HttpStatus.SC_OK);
+
+            } catch (Exception e ) {
+                throw new SatelliteException("error al agregar nuevo satelite");
+            }
+            return tsResponse;
+       
+    }
+
+    
+    /**metodo get para topsecret_split */
+    @Override
+    public GalacticShip getInfoSplit() throws MessagesException, LocationException {
+        Spacecraft spacecraft = new Spacecraft();
+        try { 
+                SatelliteWrapper satelliteWrapper = new SatelliteWrapper();
+                satelliteWrapper.setSatellities(listaSatelitesGuardados);
+                spacecraft = (Spacecraft)getGalacticShip(satelliteWrapper);
+            
+        } catch (MessagesException e) {
+            throw new MessagesException("la informacion es insuficiente para determinar la posicion y el mensaje de la nave");
+        }
+         catch (LocationException e) {
+            throw new LocationException("la informacion es insuficiente para determinar la posicion y el mensaje de la nave");
+        }
+
+        return new Spacecraft(spacecraft.getMessage(), spacecraft.getPosition());
+    }
+
     public void uploadPositions(SatelliteWrapper requestEntity){ //setea las posiciones definidas en cada uno de los 3 satelites.
 
         if(requestEntity.getPositions()[0] == null) {
-
             int numberSat = Integer.parseInt(nSatellities);
             double[][] pointsList = new double[numberSat][];
             String[] satellitePosList = {satellite0Pos,satellite1Pos,satellite2Pos}; //se graban las 3 posiciones de los satelites
@@ -87,4 +133,38 @@ public class CommunicationServiceImpl implements CommunicationService {
             requestEntity.setPositions(pointsList);
         }
     }
+
+
+    public void uploadOneSatellitePosition(Satellite satellite){ //setea la posicion del satelite correspondiente
+        Position pos= null;
+        if(satellite.getPosition() == null) {
+
+            if(satellite.getName().toLowerCase().equals("kenobi"))
+                pos= findPosition(0);
+            if(satellite.getName().toLowerCase().equals("skywalker"))
+                pos=  findPosition(1);
+            if(satellite.getName().toLowerCase().equals("sato"))
+                pos= findPosition(2);
+
+        if(pos == null)
+            satellite= null;
+            satellite.setPosition(pos);
+                
+        }
+    }
+
+    public Position findPosition(int n){
+        double[] arrayPuntos = {};
+        String[] satellitePosArray;
+        String[] satellitePosList = {satellite0Pos,satellite1Pos,satellite2Pos}; //se graban las 3 posiciones de los satelites
+        satellitePosArray = satellitePosList[n].split(","); 
+        arrayPuntos = Arrays.stream(satellitePosArray)
+                      .map(Double::valueOf)
+                      .mapToDouble(Double::doubleValue)
+                      .toArray();
+        return new Position(arrayPuntos);
+    }
+
+
+   
 }

@@ -4,6 +4,9 @@ public class Spacecraft extends GalacticShip{
     
     private String message; //mensaje de la nave transbordador
 
+    public Spacecraft(){
+        
+    }
     public Spacecraft(String message, Position position){
         this.setPosition(position);
         this.message = message;

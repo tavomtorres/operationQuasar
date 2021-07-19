@@ -14,4 +14,5 @@ org\meli\resources\CommunicationSplitController.class
 org\meli\resources\CommunicationController.class
 org\meli\model\Satellite.class
 org\meli\service\SplitServiceImpl.class
+org\meli\exceptions\SatelliteException.class
 org\meli\service\CommunicationServiceImpl.class
