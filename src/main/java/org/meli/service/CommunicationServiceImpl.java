@@ -84,9 +84,9 @@ public class CommunicationServiceImpl implements CommunicationService {
     
         TopSecretSplitResponse tsResponse = new TopSecretSplitResponse();
 
-        boolean yaExiste= listaSatelitesGuardados.stream().anyMatch(t-> t.getName().equals(satellite.getName()));
+        boolean exists= listaSatelitesGuardados.stream().anyMatch(t-> t.getName().equals(satellite.getName()));
 
-        if(yaExiste)
+        if(exists)
             throw new SatelliteException("El nombre del satelite ya fue agregado, intente con otro nombre {kenobi,skywalker,sato}");
 
         try {
