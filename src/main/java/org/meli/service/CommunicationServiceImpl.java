@@ -83,6 +83,12 @@ public class CommunicationServiceImpl implements CommunicationService {
     public TopSecretSplitResponse saveInfoSatellite(Satellite satellite) throws MessagesException, LocationException,SatelliteException {
     
         TopSecretSplitResponse tsResponse = new TopSecretSplitResponse();
+
+        boolean yaExiste= listaSatelitesGuardados.stream().anyMatch(t-> t.getName().equals(satellite.getName()));
+
+        if(yaExiste)
+            throw new SatelliteException("El nombre del satelite ya fue agregado, intente con otro nombre {kenobi,skywalker,sato}");
+
         try {
             uploadOneSatellitePosition(satellite);
             listaSatelitesGuardados.add(satellite);
@@ -101,7 +107,12 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Override
     public GalacticShip getInfoSplit() throws MessagesException, LocationException {
         Spacecraft spacecraft = new Spacecraft();
+
+
         try { 
+            if(listaSatelitesGuardados.get(0).getMessage().size() < 1){
+                listaSatelitesGuardados.clear();       
+            }
                 SatelliteWrapper satelliteWrapper = new SatelliteWrapper();
                 satelliteWrapper.setSatellities(listaSatelitesGuardados);
                 spacecraft = (Spacecraft)getGalacticShip(satelliteWrapper);
@@ -111,6 +122,9 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
          catch (LocationException e) {
             throw new LocationException("la informacion es insuficiente para determinar la posicion y el mensaje de la nave");
+        }
+        catch( Exception e){
+            throw new MessagesException("informacion borrada por seguridad intergalactica, vuelva a cargar los satelites");
         }
 
         return new Spacecraft(spacecraft.getMessage(), spacecraft.getPosition());

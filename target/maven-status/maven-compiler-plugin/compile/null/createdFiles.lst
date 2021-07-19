@@ -7,12 +7,9 @@ org\meli\exceptions\LocationException.class
 org\meli\resources\GreetingResource.class
 org\meli\service\LocationFoundService.class
 org\meli\model\GalacticShip.class
-org\meli\service\SplitService.class
 org\meli\model\SatelliteWrapper.class
 org\meli\model\Spacecraft.class
-org\meli\resources\CommunicationSplitController.class
 org\meli\resources\CommunicationController.class
 org\meli\model\Satellite.class
-org\meli\service\SplitServiceImpl.class
 org\meli\exceptions\SatelliteException.class
 org\meli\service\CommunicationServiceImpl.class

@@ -2,12 +2,9 @@ C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\model\Spacecraft.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\exceptions\MessagesException.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\service\CommunicationServiceImpl.java
-C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\service\SplitServiceImpl.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\service\DecryptMessageService.java
-C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\service\SplitService.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\exceptions\LocationException.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\model\GalacticShip.java
-C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\resources\CommunicationSplitController.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\service\CommunicationService.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\resources\GreetingResource.java
 C:\Users\Gustavo Mendez\Documents\MercadoLibre Challenge\operationfire\src\main\java\org\meli\model\Position.java
