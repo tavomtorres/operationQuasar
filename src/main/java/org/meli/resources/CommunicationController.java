@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import org.meli.exceptions.MessagesException;
 import org.meli.exceptions.LocationException;
 import org.meli.model.SatelliteWrapper;
-
+import org.meli.model.Satellite;
 import org.meli.service.CommunicationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,8 +38,6 @@ public class CommunicationController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
-
-
 
 
 }

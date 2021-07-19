@@ -8,7 +8,6 @@ import org.meli.exceptions.LocationException;
 import org.meli.exceptions.MessagesException;
 import org.meli.model.GalacticShip;
 import org.meli.model.Position;
-import org.meli.model.Satellite;
 import org.meli.model.SatelliteWrapper;
 import org.meli.model.Spacecraft;
 import java.util.Arrays;
@@ -19,9 +18,13 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Inject
     LocationFoundService locationFoundService;
 
+    @Inject
+    DecryptMessageService decryptMessageService;
+
     @ConfigProperty(name = "nSatellities") 
     String nSatellities;
 
+    /**posicion de los satelites definida en el application properties */
     @ConfigProperty(name = "satellities.0.position") 
     String satellite0Pos;
 
@@ -34,15 +37,17 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Override
     public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException , LocationException{
 
-        Satellite satelliteFallido = new Satellite();
         boolean intersect =false;
+
         if(requestEntity.getMessages().size() < 2)
             throw new MessagesException("El minimo de mensajes no se ha cumplido en la comunicacion");
+
+        String message = decryptMessageService.getMessage(requestEntity.getMessages());
 
         uploadPositions(requestEntity);
 
         if( (requestEntity.getPositions().length < 2) || (requestEntity.getDistances().length < 2) )
-            throw new LocationException("Num de posiciones o distancias insuficientes");
+            throw new LocationException("El numero de Distancias o posiciones es incorrecto");
     
 
         double[] points = locationFoundService.getLocation(requestEntity.getPositions(), requestEntity.getDistances());
@@ -51,7 +56,6 @@ public class CommunicationServiceImpl implements CommunicationService {
         for (int i = 0; i < requestEntity.getSatellities().size(); i++) {
             intersect = locationFoundService.verificationIntersection(requestEntity.getSatellities().get(i), pos);
             if(intersect == false){
-                satelliteFallido = requestEntity.getSatellities().get(i);
                 break;
             }      
         }
@@ -59,7 +63,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         if(intersect){
             pos.setX(Math.round(pos.getX()*100d/100d));
             pos.setY(Math.round(pos.getY()*100d/100d));
-            return new Spacecraft("mensaje ok!", pos);
+            return new Spacecraft(message, pos);
         }else{
             throw new LocationException("imposible encontrar la nave...las distancias de los satelites no estan en rango de comunicacion");
         }  

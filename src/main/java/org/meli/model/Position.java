@@ -6,6 +6,9 @@ public class Position {
     private double x;
     private double y;
 
+    public Position(){
+        
+    }
     public Position(double[] points){
         this.x = points[0];
         this.y = points[1];

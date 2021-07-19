@@ -1,12 +1,17 @@
 org\meli\service\CommunicationService.class
 org\meli\model\Position.class
 org\meli\exceptions\MessagesException.class
+org\meli\model\responses\TopSecretSplitResponse.class
+org\meli\service\DecryptMessageService.class
 org\meli\exceptions\LocationException.class
 org\meli\resources\GreetingResource.class
 org\meli\service\LocationFoundService.class
 org\meli\model\GalacticShip.class
+org\meli\service\SplitService.class
 org\meli\model\SatelliteWrapper.class
 org\meli\model\Spacecraft.class
+org\meli\resources\CommunicationSplitController.class
 org\meli\resources\CommunicationController.class
 org\meli\model\Satellite.class
+org\meli\service\SplitServiceImpl.class
 org\meli\service\CommunicationServiceImpl.class
