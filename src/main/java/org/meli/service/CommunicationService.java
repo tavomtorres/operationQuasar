@@ -10,7 +10,7 @@ import org.meli.exceptions.LocationException;
 
 public interface CommunicationService {
     
-    public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException, LocationException;
+    public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException, LocationException, SatelliteException;
     public TopSecretSplitResponse saveInfoSatellite( final Satellite satellite) throws MessagesException, LocationException, SatelliteException;
     public GalacticShip getInfoSplit( ) throws MessagesException, LocationException;
 }

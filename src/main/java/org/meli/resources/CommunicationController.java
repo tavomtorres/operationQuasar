@@ -40,6 +40,10 @@ public class CommunicationController {
         }catch (LocationException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
+        catch (SatelliteException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+
+        }
     }
 
     @POST

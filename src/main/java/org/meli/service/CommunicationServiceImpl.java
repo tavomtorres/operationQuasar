@@ -44,7 +44,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     final List<Satellite> listaSatelitesGuardados = new ArrayList<Satellite>();
 
     @Override
-    public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException , LocationException{
+    public GalacticShip getGalacticShip(SatelliteWrapper requestEntity) throws MessagesException , LocationException, SatelliteException{
 
         boolean intersect =false;
 
@@ -53,8 +53,16 @@ public class CommunicationServiceImpl implements CommunicationService {
 
         String message = decryptMessageService.getMessage(requestEntity.getMessages());
 
-        uploadPositions(requestEntity);
 
+        boolean allNulls = requestEntity.getSatellities().stream().allMatch(t-> t.getPosition() == null);
+        boolean allWithPositions =requestEntity.getSatellities().stream().allMatch(t-> t.getPosition() != null);
+
+        if(allNulls && !allWithPositions)
+            uploadPositions(requestEntity);
+               
+        if(!allNulls && !allWithPositions )
+            throw new SatelliteException("Formato incorrecto para posiciones de los satelites, todos deben tener posicion, o ninguno debe tener posicion.");
+      
         if( (requestEntity.getPositions().length < 2) || (requestEntity.getDistances().length < 2) )
             throw new LocationException("El numero de Distancias o posiciones es incorrecto");
     
