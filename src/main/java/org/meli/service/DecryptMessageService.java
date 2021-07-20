@@ -31,7 +31,7 @@ public class DecryptMessageService {
      * @param msgList
      * @param gapSize
      */
-    public void removeGap(List<List<String>> msgList, int gapSize){ 
+    private void removeGap(List<List<String>> msgList, int gapSize){ 
         int s = 0;
         for(int i = 0; i < msgList.size(); i++){
             s = msgList.get(i).size();
@@ -39,7 +39,7 @@ public class DecryptMessageService {
         }
     }
 
-    public String completeMessage(List<List<String>> msgList){
+    private String completeMessage(List<List<String>> msgList){
 
         String phrase = "";
         for(List<String> m : msgList){
@@ -68,7 +68,7 @@ public class DecryptMessageService {
         return message;
     }
 
-    public boolean validateMessagesSize(List<List<String>> messages, int size){
+    private boolean validateMessagesSize(List<List<String>> messages, int size){
         for(List<String> m : messages){
             if(m.size() < size){
                 return false;
@@ -77,7 +77,7 @@ public class DecryptMessageService {
         return true;
     }
 
-    public boolean validateMessagePhrases(List<String> phrases, String message){
+    private boolean validateMessagePhrases(List<String> phrases, String message){
         List<String> msg = Arrays.stream(message.split(" ")).collect(Collectors.toList());
         Collections.sort(phrases);
         Collections.sort(msg);

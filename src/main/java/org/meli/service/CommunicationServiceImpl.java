@@ -138,7 +138,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return new Spacecraft(spacecraft.getMessage(), spacecraft.getPosition());
     }
 
-    public void uploadPositions(SatelliteWrapper requestEntity){ //setea las posiciones definidas en cada uno de los 3 satelites.
+    private void uploadPositions(SatelliteWrapper requestEntity){ //setea las posiciones definidas en cada uno de los 3 satelites.
 
         if(requestEntity.getPositions()[0] == null) {
             int numberSat = Integer.parseInt(nSatellities);
@@ -157,7 +157,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
 
-    public void uploadOneSatellitePosition(Satellite satellite){ //setea la posicion del satelite correspondiente
+    private void uploadOneSatellitePosition(Satellite satellite){ //setea la posicion del satelite correspondiente
         Position pos= null;
         if(satellite.getPosition() == null) {
 
@@ -175,7 +175,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
     }
 
-    public Position findPosition(int n){
+    private Position findPosition(int n){
         double[] arrayPuntos = {};
         String[] satellitePosArray;
         String[] satellitePosList = {satellite0Pos,satellite1Pos,satellite2Pos}; //se graban las 3 posiciones de los satelites

@@ -15,7 +15,7 @@ You can run your application in dev mode that enables live coding using:
 
 ## Packaging and running the application
 
-![ScreenShot](docs/screenshot.PNG)
+
 
 The application can be packaged using:
 ```shell script
@@ -54,3 +54,6 @@ If you want to learn more about building native executables, please consult http
 Easily start your RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+
+## DOCUMENTACION - FUNCIONAMIENTO DE LA API
+
