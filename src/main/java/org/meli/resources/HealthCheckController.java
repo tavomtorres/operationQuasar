@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.meli.model.responses.HealthCheckResponse;
 
 @Path("/health")
@@ -22,6 +23,11 @@ public class HealthCheckController {
     String appName;
 
     @GET
+    @Operation(
+        operationId ="healthCheck", 
+        summary = "API HealthCheck" , 
+        description = "Verifica el estado y la version de la API."
+    )
     public Response healthCheck(){
         HealthCheckResponse response = new HealthCheckResponse();
         response.setAppName(appName);

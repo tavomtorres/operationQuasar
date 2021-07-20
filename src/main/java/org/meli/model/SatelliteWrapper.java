@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(name = "SatelliteWrapper", description = "Representacion de todos los satelites juntos")
 public class SatelliteWrapper {
     
-    private List<Satellite> satellities; //esto seria escalable en caso de recibir mas de 3 satelites por metodo POST.
 
+    private List<Satellite> satellities; //esto seria escalable en caso de recibir mas de 3 satelites por metodo POST.
+    @Schema(required = true)
     public List<Satellite> getSatellities(){
         return satellities;
     }

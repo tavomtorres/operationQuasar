@@ -12,6 +12,11 @@ import javax.ws.rs.Produces;
 
 import org.meli.exceptions.MessagesException;
 import org.meli.exceptions.SatelliteException;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.meli.exceptions.LocationException;
 import org.meli.model.SatelliteWrapper;
 import org.meli.model.Satellite;
@@ -31,7 +36,29 @@ public class CommunicationController {
 
     @Path("/topsecret")
     @POST
-    public Response topsecret(SatelliteWrapper requestEntity){
+    @Operation(
+            operationId ="topsecret", 
+            summary = "triangula la posicion de la nave" , 
+            description = "Triangula la posicion de una nave a traves de 3 satelites usando trillateration *REVISAR README para obtener ejemplos de request*"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "triangulacion exitosa, se encontro el mensaje",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SatelliteWrapper.class))
+    )
+    @APIResponse(
+        responseCode = "404",
+        description = "No se pudo determinar la posicion o el mensaje",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SatelliteWrapper.class))
+)
+    @Schema(implementation = SatelliteWrapper.class)
+    public Response topsecret(
+            @RequestBody(
+                    description = "Lista de satelites",
+                    required =true,
+                    content = @Content(schema = @Schema(implementation = SatelliteWrapper.class))
+                    )    
+                    SatelliteWrapper requestEntity){
 
         try {
             return Response.ok().entity(service.getGalacticShip(requestEntity)).build();
@@ -42,13 +69,31 @@ public class CommunicationController {
         }
         catch (SatelliteException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
     @POST
     @Path("topsecret_split/{satellite_name}")
-    public Response topSecretSplit(@PathParam("satellite_name")  String satelliteName, final Satellite satellite){
+    @Operation(
+        operationId ="topsecret_split", 
+        summary = "Agrega un satelite" , 
+        description = "Agrega uno por uno los satelites que triangularan la posicion de la nave *REVISAR README para mas informacion*"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "Satelite agregado con exito",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Satellite.class))
+    )
+    @APIResponse(
+        responseCode = "400",
+        description = "No se pudo agregar el satelite",
+        content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Satellite.class))
+    )
+    @Schema(implementation = Satellite.class)
+    public Response topSecretSplit(@PathParam("satellite_name") String satelliteName, final Satellite satellite){
         satellite.setName(satelliteName);
             try {
                 return Response.ok().entity(service.saveInfoSatellite(satellite)).build();
@@ -64,6 +109,19 @@ public class CommunicationController {
 
     @GET
     @Path("topsecret_split")
+    @Operation(
+        operationId ="topsecret_split", 
+        summary = "Triangula la posicion de la nave" , 
+        description = "Una vez agregados 3 satelites con el metodo POST de topsecret_split , triangulara la posicion de la nave.*REVISAR README para obtener ejemplos de request*"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "Nave encontrada y mensaje descrifrado"
+    )
+    @APIResponse(
+        responseCode = "404",
+        description = "Informacion insuficiente para encontrar la nave y descrifrar el mensaje"
+    )
     public Response getTopSecretSplit(){
             try {
                 return Response.ok().entity(service.getInfoSplit()).build();
