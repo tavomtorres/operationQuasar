@@ -15,7 +15,7 @@ You can run your application in dev mode that enables live coding using:
 
 ## Packaging and running the application
 
-![ScreenShot](screenshot.png)
+![ScreenShot](docs/screenshot.PNG)
 
 The application can be packaged using:
 ```shell script
