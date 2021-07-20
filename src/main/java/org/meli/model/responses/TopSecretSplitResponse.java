@@ -1,8 +1,5 @@
 package org.meli.model.responses;
 
-import org.apache.http.HttpStatus;
-
-
 public class TopSecretSplitResponse {
     private String message;
 
