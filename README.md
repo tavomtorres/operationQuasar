@@ -72,7 +72,7 @@ Diagrama de Clases UML
 ![alt text](docs/DiagramaClases.PNG)
 
 - La ApiREST se compone de 3 capas: Resources(Controladores REST) , Service(Interfaces e implementaciones de servicio) y Model(Entidades).
-
+ 
 # Endpoints en ambiente local
 
 Levantando la api con el comando
@@ -206,6 +206,15 @@ Siempre y cuando se cumpla que:
 **Nota:** los puntos "x" , "y" y las distancias, no son al azar, deben coincidir matematicamente en un sistema de 3 ecuaciones con dos incognitas como se muestra en la imagen (img 1.2).
 
 Se considerará como mejora poner los puntos "x" , "y" de los satelites de forma randomizada.
+
+# Consideraciones y Limitaciones del proyecto
+
+- Los puntos "x" "y" de los satelites no son randomizados, no varian, por lo que si se quiere comprobar la triangulacion con otros datos, estos datos deben tener sentido matematicamente.
+
+- No se toma en cuenta el caso de uso si el metodo post topsecret_split/satelliteName o post /topsecret recibe mas de 3 satelites.
+
+- El formato en que se puede enviar los mensajes es muy especifico.
+
 
 # Plataforma Google Cloud
 

@@ -32,7 +32,7 @@ public class LocationFoundService {
 
     //solucion no escalable
     //ver el archivo readme seccion: "Analisis Matematico" , esto es lo que pasa internamente en la libreria
-    private double[] trackPosition(double[][] positions, double[] distances){
+    public double[] trackPosition(double[][] positions, double[] distances){
         
         double x1,x2,x3,y1,y2,y3,r1,r2,r3,x,y;
 

@@ -16,6 +16,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.jboss.logging.Logger;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.meli.exceptions.LocationException;
 import org.meli.model.SatelliteWrapper;
@@ -30,7 +31,10 @@ import org.springframework.web.server.ResponseStatusException;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CommunicationController {
-    
+
+    @Inject
+    Logger LOG;
+
     @Inject
     CommunicationService service;
 
@@ -61,18 +65,25 @@ public class CommunicationController {
                     SatelliteWrapper requestEntity){
 
         try {
+            LOG.info("/topsecret POST BEGIN...");
             return Response.ok().entity(service.getGalacticShip(requestEntity)).build();
+            
         } catch (MessagesException e ) {
+            LOG.error("MessagesException ==> " , e );
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }catch (LocationException e){
+            LOG.error("LocationException ==> " , e );
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
         catch (SatelliteException e){
+            LOG.error("SatelliteException ==> " , e );
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
         catch(Exception e){
+            LOG.error("Error que excede las excepciones controladas ! ==> ");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
+        
     }
 
     @POST
@@ -96,13 +107,18 @@ public class CommunicationController {
     public Response topSecretSplit(@PathParam("satellite_name") String satelliteName, final Satellite satellite){
         satellite.setName(satelliteName);
             try {
+                LOG.info("/topsecret_split POST BEGIN...");
                 return Response.ok().entity(service.saveInfoSatellite(satellite)).build();
             } catch (MessagesException e ) {
+                LOG.error("MessagesException ==> " , e );
+               
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
             } catch (LocationException e){
+                LOG.error("LocationException ==> " , e );
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
             catch (SatelliteException e){
+                LOG.error("SatelliteException ==> " , e );
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
     }
@@ -124,10 +140,13 @@ public class CommunicationController {
     )
     public Response getTopSecretSplit(){
             try {
+                LOG.info("/topsecret_split GET BEGIN...");
                 return Response.ok().entity(service.getInfoSplit()).build();
             } catch (MessagesException e ) {
+                LOG.error("MessagesException ==> " , e );
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
             }catch (LocationException e){
+                LOG.error("LocationException ==> " , e );
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
     }
