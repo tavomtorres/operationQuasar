@@ -253,10 +253,10 @@ http://localhost:8080/api/v1/topsecret_split/sato
 ```
 Google Cloud POST:
 ```shell script
- https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
 ```
 ```shell script
- https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
 ```
 
 ```shell script
