@@ -166,7 +166,7 @@ private double[] trackPosition()
 este metodo refleja lo que hace la libreria lemmingapex.trilateration por atras, pero de manera menos escalable. Se usa para entender el significado y resolucion matematico que tiene la trilateracion.
 
 
-# Ejemplos Request JSON
+# Ejemplos Request JSON con posicion
 
 ### Ejemplo POST /topsecret : 
 Se pueden probar otras distancias y puntos en el metodo POST
@@ -207,13 +207,84 @@ Siempre y cuando se cumpla que:
 
 Se considerará como mejora poner los puntos "x" , "y" de los satelites de forma randomizada.
 
+
+# Ejemplo nivel 3 topsecret_split
+
+Se pueden agregar satelites por separado con los siguientes pasos:
+
+- Paso 1: 
+#### enviar 3 post con los nombres kenobi, skywalker y sato , se pueden enviar en cualquier orden. 
+
+```shell script
+Ambiente local postman:
+1) POST http://localhost:8080/api/v1/topsecret_split/kenobi
+2) POST http://localhost:8080/api/v1/topsecret_split/skywalker
+3) POST http://localhost:8080/api/v1/topsecret_split/sato
+
+Google Cloud postman:
+1) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
+
+2) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
+
+3) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/sato
+```
+
+Con el siguiente formato:
+
+- Kenobi
+```json
+{
+	"distance": 199.18082237,
+	"message": ["este", "", "", "mensaje", ""]
+}
+```
+
+- skywalker
+```json
+{
+    "distance": 122.347864714,
+    "message": ["", "es", "", "", "secreto"]
+}
+```
+
+- sato
+```json
+{
+	"distance": 75.7693869581,
+	"message": ["este", "", "un", "", ""]
+}
+```
+
+- Paso 2: 
+### Una vez agregados los 3 satelites ejectuar el topsecret_split get:
+
+- localhost
+```shell script
+ GET http://localhost:8080/api/v1/topsecret_split
+```
+
+- Google Cloud
+```shell script
+ GET https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split
+```
+
+
 # Consideraciones y Limitaciones del proyecto
 
-- Los puntos "x" "y" de los satelites no son randomizados, no varian, por lo que si se quiere comprobar la triangulacion con otros datos, estos datos deben tener sentido matematicamente.
+- Los puntos "x" "y" de los satelites no son randomizados, no varian, por lo que si se quiere comprobar la triangulacion en el topsecret POST con otros datos, estos datos deben tener sentido matematicamente, es decir la posicion de los satelites deben intersectar con sus distancias como se explica en la parte de trillateration.
 
 - No se toma en cuenta el caso de uso si el metodo post topsecret_split/satelliteName o post /topsecret recibe mas de 3 satelites.
 
 - El formato en que se puede enviar los mensajes es muy especifico.
+
+- Una vez hecho el GET topsecret_split (nivel 3) , la informacion de los satelites cargados será borrada, se deberan agregar nuevamente.
+
+### El nivel 3 unicamente funciona con los satelites en las posiciones del application.properties:
+ - kenobi: x: 120.0 , y: 51.0
+ - skywalker: x: 133.0 y: 32.0
+ - sato : x: 118.0, y: -85.0
+
+ esto es debido a que no se está utilizando posiciones randomizadas.
 
 
 # Plataforma Google Cloud
