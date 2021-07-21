@@ -206,3 +206,10 @@ Siempre y cuando se cumpla que:
 **Nota:** los puntos "x" , "y" y las distancias, no son al azar, deben coincidir matematicamente en un sistema de 3 ecuaciones con dos incognitas como se muestra en la imagen (img 1.2).
 
 Se considerará como mejora poner los puntos "x" , "y" de los satelites de forman randomizada.
+
+# Plataforma Google Cloud
+
+Para probar la API en la nube:
+```shell script
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/health
+```
