@@ -255,13 +255,17 @@ Google Cloud POST:
 ```shell script
 https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
 ```
+NOTA IMPORTANTE: Este link tiene un salto de linea invisible (error del readme) asegurar de poner el link en postman sin saltos de linea
+
 ```shell script
 https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
 ```
+NOTA IMPORTANTE: Este link tiene un salto de linea invisible (error del readme) asegurar de poner el link en postman sin saltos de linea
 
 ```shell script
 https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/sato
 ```
+NOTA IMPORTANTE: Este link tiene un salto de linea invisible (error del readme) asegurar de poner el link en postman sin saltos de linea
 
 Con el siguiente formato para cada uno respectivamente en el body:
 
