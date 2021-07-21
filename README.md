@@ -69,7 +69,7 @@ Easily start your RESTful Web Services
 
 Diagrama de Clases UML
 
-![alt text](docs/DiagramaClases.PNG)
+![alt text](docs/DiagramaClases.png)
 
 - La ApiREST se compone de 3 capas: Resources(Controladores REST) , Service(Interfaces e implementaciones de servicio) y Model(Entidades).
  
@@ -106,14 +106,19 @@ satellities.2.position=118.0,-85.0
 ```
 Para probar el ejemplo por default de la API 
 
-### POST
+### Localhost POST
 ```shell script
 http://localhost:8080/api/v1/topsecret
 ```
-Usa el siguiente json:
+### Google Cloud POST
+```shell script
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret
+```
+
+Usar el siguiente json:
 
 ```json
- {
+{
 "satellities": [
 			{
 				"name": "kenobi",
@@ -134,17 +139,8 @@ Usa el siguiente json:
 		]
 }
 ```
-el response será un HTTP 200 con el siguiente json:
 
-```json
- {
-    "position": {
-        "x": 48.0,
-        "y": -56.0
-    },
-    "message": "este es un mensaje secreto"
-}
-```
+![alt text](docs/ejemploTopSecretDefault.PNG)
 
 Usando https://www.geogebra.org/graphing?lang=en
 podemos comprobar que matematicamente el punto que dio el Response intersecta con los 3 satelites 
@@ -166,6 +162,11 @@ private double[] trackPosition()
 este metodo refleja lo que hace la libreria lemmingapex.trilateration por atras, pero de manera menos escalable. Se usa para entender el significado y resolucion matematico que tiene la trilateracion.
 
 
+Para informacion detallada sobre como actua matematicamente la trillateration se puede consultar este ejemplo:
+https://acolita.com/como-funcionan-los-dispositivos-gps-trilateracion-vs-triangulacion/
+
+
+
 # Ejemplos Request JSON con posicion
 
 ### Ejemplo POST /topsecret : 
@@ -173,9 +174,17 @@ Se pueden probar otras distancias y puntos en el metodo POST
 ```shell script
 http://localhost:8080/api/v1/topsecret
 ```
+
+### Google Cloud POST
+```shell script
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret
+```
+
 Siempre y cuando se cumpla que:
 - Matematicamente los puntos cartesianos deben coincidir con la distancia y asi poder calcular la triangulacion (se puede comprobar en https://www.geogebra.org/graphing?lang=en)
 - Todos los satelites deben tener la posicion definida como se muestra a continuacion:
+
+El siguiente JSON es otra posicion de los salites con la distancia requerida:
 
 ```json
 {
@@ -203,6 +212,8 @@ Siempre y cuando se cumpla que:
 }
 ```
 
+![alt text](docs/ConPosicion.PNG)
+
 **Nota:** los puntos "x" , "y" y las distancias, no son al azar, deben coincidir matematicamente en un sistema de 3 ecuaciones con dos incognitas como se muestra en la imagen (img 1.2).
 
 Se considerará como mejora poner los puntos "x" , "y" de los satelites de forma randomizada.
@@ -213,23 +224,31 @@ Se considerará como mejora poner los puntos "x" , "y" de los satelites de forma
 Se pueden agregar satelites por separado con los siguientes pasos:
 
 - Paso 1: 
-#### enviar 3 post con los nombres kenobi, skywalker y sato , se pueden enviar en cualquier orden. 
+enviar 3 post con los nombres kenobi, skywalker y sato , se pueden enviar en cualquier orden. 
 
+Ambiente local POST:
 ```shell script
-Ambiente local postman:
-1) POST http://localhost:8080/api/v1/topsecret_split/kenobi
-2) POST http://localhost:8080/api/v1/topsecret_split/skywalker
-3) POST http://localhost:8080/api/v1/topsecret_split/sato
-
-Google Cloud postman:
-1) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
-
-2) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
-
-3) POST https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/sato
+http://localhost:8080/api/v1/topsecret_split/kenobi
+```
+```shell script
+http://localhost:8080/api/v1/topsecret_split/skywalker
+```
+```shell script
+http://localhost:8080/api/v1/topsecret_split/sato
+```
+Google Cloud POST:
+```shell script
+ https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/kenobi
+```
+```shell script
+ https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/skywalker
 ```
 
-Con el siguiente formato:
+```shell script
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split/sato
+```
+
+Con el siguiente formato para cada uno respectivamente en el body:
 
 - Kenobi
 ```json
@@ -254,19 +273,23 @@ Con el siguiente formato:
 	"message": ["este", "", "un", "", ""]
 }
 ```
+![alt text](docs/ExampleLevel3.PNG)
+
 
 - Paso 2: 
 ### Una vez agregados los 3 satelites ejectuar el topsecret_split get:
 
-- localhost
+- localhost GET
 ```shell script
- GET http://localhost:8080/api/v1/topsecret_split
+http://localhost:8080/api/v1/topsecret_split
 ```
 
-- Google Cloud
+- Google Cloud GET
 ```shell script
- GET https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split
+https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split
 ```
+![alt text](docs/ExampleLevel3-2.PNG)
+
 
 
 # Consideraciones y Limitaciones del proyecto
