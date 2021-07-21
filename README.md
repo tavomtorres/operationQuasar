@@ -1,4 +1,5 @@
 # operationfire Project
+# Breve descripcion de Quarkus Framework
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
@@ -75,10 +76,13 @@ Diagrama de Clases UML
  
 # Endpoints en ambiente local
 
-Levantando la api con el comando
+Una vez clonado el repositorio situarse en la raiz del proyecto y ejecutar:
+
 ```shell script
 ./mvnw compile quarkus:dev
 ```
+Esto levantara quarkus en modo desarrollo en el puerto localhost.
+
 Se accenden a los siguientes endpoints:
 
 ### GET /health
@@ -93,6 +97,17 @@ sirve para diagnosticar el estado de la api al levantar el servicio.
 
 ### GET /topsecret_split
 - D) http://localhost:8080/api/v1/topsecret_split este metodo revisa en memoria los satelites cargados por el metodo topsecret_split/{satellite_name} , y usa la "Trilateration" para calcular la posicion de la nave y descifrar el  mensaje.
+
+# Swagger UI
+- Localhost 
+```shell script
+http://localhost:8080/swagger-ui/
+```
+
+- Google Cloud 
+```shell script
+https://operationfireservice-zl27egexaa-uc.a.run.app/swagger-ui/
+```
 
 # Application.Properties y Ejemplo por defecto
 
@@ -224,7 +239,7 @@ Se considerará como mejora poner los puntos "x" , "y" de los satelites de forma
 Se pueden agregar satelites por separado con los siguientes pasos:
 
 - Paso 1: 
-enviar 3 post con los nombres kenobi, skywalker y sato , se pueden enviar en cualquier orden. 
+enviar 3 post de manera *consecutiva* con los nombres kenobi, skywalker y sato , se pueden enviar en cualquier orden. 
 
 Ambiente local POST:
 ```shell script
@@ -312,7 +327,7 @@ https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/topsecret_split
 
 # Plataforma Google Cloud
 
-Para probar la API en la nube:
+Para checkear la API en la nube:
 ```shell script
 https://operationfireservice-zl27egexaa-uc.a.run.app/api/v1/health
 ```
